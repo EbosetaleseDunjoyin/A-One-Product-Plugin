@@ -44,6 +44,7 @@ if (!class_exists('AOneStage')) {
             include_once AONE_PATH . '/includes/utilites.php'; 
             include_once AONE_PATH . '/includes/api.php';
             include_once AONE_PATH . '/includes/cron.php';
+            include_once AONE_PATH . '/includes/test.php';
 
             add_action('admin_enqueue_scripts', [$this, 'aOne_enqueue_admin_scripts']);
         }

@@ -154,7 +154,7 @@ if (!class_exists("LegendLife")):
                 ];
             } else {
                 // Successful case (assuming $result contains the data)
-                $result = json_decode($response['body']);
+                // $result = json_decode($response['body']);
                 // return $result;
                 return [
                     'status' => true,

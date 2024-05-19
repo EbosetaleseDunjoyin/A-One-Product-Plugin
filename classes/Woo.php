@@ -116,148 +116,228 @@ if (!class_exists("Woo")):
                 return true;
             }
         }
-        public function import_fashion_woocommerce_product($data,$desc)
+        // public function import_fashion_woocommerce_product($data,$desc)
+        // {
+        //     $existingProductId = wc_get_product_id_by_sku($data->slug);
+        //     if ($existingProductId > 0) {
+
+        //         $this->varProduct = wc_get_product($existingProductId);
+        //         $meta_value = $this->varProduct->get_meta('aone_upload', true);
+
+        //         if ($meta_value) {return true; }
+        //         return true;
+        //         // Update slug (if desired) - Adjust based on your slug source
+        //     } else {
+        //         $this->varProduct = new WC_Product_Variable();
+        //     }
+
+        //     $attributes = [];
+
+        //     $fabricList = is_array($desc->fabric) ? implode(', ', $desc->fabric) : $desc->fabric; 
+        //     $featuresList = is_array($desc->features) ? implode(".  ", $desc->features) : $desc->features; 
+
+        //     $description = "**Fabric:** " . $fabricList . "\n\n**Features:**\n  * " . $featuresList;
+
+        //     // Short description with limited features
+        //     $shortDescription = "Made with " . $fabricList;
+
+           
+           
+        //     $this->varProduct->set_name($data->name); // product title
+        //     $this->varProduct->set_sku($data->slug); // product sku
+            
+        //     // $price = !empty($data->prices) && isset($data->prices[0]->price) ? $data->prices[0]->price : 0;
+        //     $price = null;
+        //     if (!empty($data->prices)) {
+        //         if (is_array($data->prices)) {
+        //             if (isset($data->prices[0]->price)) {
+        //                 $price = $data->prices[0]->price;
+        //             }
+        //         } 
+        //     }
+        //     $this->varProduct->set_regular_price($price); // in current shop currency
+        //     $quantity = ($price > 0 || $price != null) ? 500 : 0;
+        //     $this->varProduct->set_stock_quantity($quantity);
+
+        //     $this->varProduct->set_description($description);
+        //     $this->varProduct->set_short_description($shortDescription);
+        //     // you can also add a full product description
+        //     // $this->varProduct->set_description( 'long description here...' );
+
+        //     $image_id = upload_file_by_url($data->images[0]->https_attachment_url_product);
+
+        //     $this->varProduct->set_image_id($image_id);
+
+            
+
+        //     $sizes = $data->colors[0]->sizes;
+        //     $colors = $data->colors;
+
+        //     // Initialize an empty array to store sizes
+        //     $sizes_array = [];
+        //     $colors_array = [];
+
+        //     // Loop through sizes and add them to the sizes array
+        //     foreach ($sizes as $size) {
+        //       $sizes_array[] = $size->size;
+        //     }
+        //     foreach ($colors as $color) {
+        //       $colors_array[] = $color->name;
+        //     }
+
+           
+
+        //     $attributes[] = create_attribute('Size', $sizes_array);
+        //     $attributes[] = create_attribute('Color', $colors_array);
+
+        //     // $this->varProduct->set_attributes($attributes);
+
+        //     $this->varProduct->set_attributes($attributes);
+
+        //     $save = $this->varProduct->save();
+
+        //     // $variation = new WC_Product_Variation();
+        //     // $variation->set_parent_id($this->varProduct->get_id());
+        //     // $variation->set_attributes(array('brand' => 'Biz Collection', 'color' => 'Red'));
+        //     // $variation->set_regular_price(1000000); // yep, magic hat is quite expensive
+        //     // $variation->save();
+
+        //     // $variation = new WC_Product_Variation();
+        //     // $variation->set_parent_id($this->varProduct->get_id());
+        //     // $variation->set_attributes(array('color' => 'Black', 'brand' => 'Transsd'));
+        //     // $variation->set_regular_price(500);
+        //     // $variation->save();
+        //     $word = str_replace('-', ' ', $data->brand);
+        //     $brand = ucwords($word);
+
+        //     wp_set_object_terms($this->varProduct->get_id(), $data->tags, 'product_tag');
+        //     wp_set_object_terms($this->varProduct->get_id(), [$brand], 'product_cat');
+
+        //     foreach ($data->colors as $color_data) {
+        //       foreach ($color_data->sizes as $size_data) {
+        //         $variation = new WC_Product_Variation();
+        //         $variation->set_parent_id($this->varProduct->get_id());
+
+        //         // Set variation name (combine color with size)
+        //         // $variation->set_name($color_data['name'] . ' (' . $size_data['size'] . ')');
+
+        //         // Set variation attributes
+        //         $variation->set_attributes([
+        //           'color' => $color_data->name,
+        //           'size' => $size_data->size,
+        //         ]);
+
+        //         // Set variation price
+        //         $variation->set_regular_price($price); 
+
+        //         $variation_image_id = upload_file_by_url($color_data->images[0]->https_attachment_url_product);
+
+        //         // Set variation image (if found)
+        //         if ($variation_image_id) {
+        //           $variation->set_image_id($variation_image_id);
+        //         }
+        //         $variation->save();
+        //         // $variations[] = $variation;
+        //       }
+        //     }
+
+
+        //     // let's suppose that our 'Accessories' category has ID = 19 
+        //     // $product->set_category_ids(array(19));
+        //     // you can also use $product->set_tag_ids() for tags, brands etc
+
+
+
+        //     if ($save) {
+        //         $this->varProduct->update_meta_data('aone_upload', 'true');
+        //         return true;
+        //     }
+        //     return;
+
+        // }
+        public function import_fashion_woocommerce_product($data, $desc)
         {
             $existingProductId = wc_get_product_id_by_sku($data->slug);
-            if ($existingProductId > 0) {
 
+            if ($existingProductId > 0) {
                 $this->varProduct = wc_get_product($existingProductId);
                 $meta_value = $this->varProduct->get_meta('aone_upload', true);
 
-                if ($meta_value) {return true; }
-                return true;
-                // Update slug (if desired) - Adjust based on your slug source
+                if ($meta_value) {
+                    return true;
+                }
             } else {
                 $this->varProduct = new WC_Product_Variable();
             }
 
             $attributes = [];
 
-            $fabricList = is_array($desc->fabric) ? implode(', ', $desc->fabric) : $desc->fabric; 
-            $featuresList = is_array($desc->features) ? implode(".  ", $desc->features) : $desc->features; 
+            $fabricList = is_array($desc->fabric) ? implode(', ', $desc->fabric) : $desc->fabric;
+            $featuresList = is_array($desc->features) ? implode(".  ", $desc->features) : $desc->features;
 
             $description = "**Fabric:** " . $fabricList . "\n\n**Features:**\n  * " . $featuresList;
-
-            // Short description with limited features
             $shortDescription = "Made with " . $fabricList;
 
-           
-           
-            $this->varProduct->set_name($data->name); // product title
-            $this->varProduct->set_sku($data->slug); // product sku
-            
-            // $price = !empty($data->prices) && isset($data->prices[0]->price) ? $data->prices[0]->price : 0;
+            $this->varProduct->set_name($data->name);
+            $this->varProduct->set_sku($data->slug);
+
             $price = null;
-            if (!empty($data->prices)) {
-                if (is_array($data->prices)) {
-                    if (isset($data->prices[0]->price)) {
-                        $price = $data->prices[0]->price;
-                    }
-                } 
+            if (!empty($data->prices) && is_array($data->prices) && isset($data->prices[0]->price)) {
+                $price = $data->prices[0]->price;
             }
-            $this->varProduct->set_regular_price($price); // in current shop currency
+            $this->varProduct->set_regular_price($price);
             $quantity = ($price > 0 || $price != null) ? 500 : 0;
             $this->varProduct->set_stock_quantity($quantity);
 
             $this->varProduct->set_description($description);
             $this->varProduct->set_short_description($shortDescription);
-            // you can also add a full product description
-            // $this->varProduct->set_description( 'long description here...' );
 
             $image_id = upload_file_by_url($data->images[0]->https_attachment_url_product);
-
             $this->varProduct->set_image_id($image_id);
 
-            
-
-            $sizes = $data->colors[0]->sizes;
-            $colors = $data->colors;
-
-            // Initialize an empty array to store sizes
-            $sizes_array = [];
-            $colors_array = [];
-
-            // Loop through sizes and add them to the sizes array
-            foreach ($sizes as $size) {
-              $sizes_array[] = $size->size;
-            }
-            foreach ($colors as $color) {
-              $colors_array[] = $color->name;
-            }
-
-           
+            $sizes_array = array_map(fn($size) => $size->size, $data->colors[0]->sizes);
+            $colors_array = array_map(fn($color) => $color->name, $data->colors);
 
             $attributes[] = create_attribute('Size', $sizes_array);
             $attributes[] = create_attribute('Color', $colors_array);
 
-            // $this->varProduct->set_attributes($attributes);
-
             $this->varProduct->set_attributes($attributes);
-
             $save = $this->varProduct->save();
 
-            // $variation = new WC_Product_Variation();
-            // $variation->set_parent_id($this->varProduct->get_id());
-            // $variation->set_attributes(array('brand' => 'Biz Collection', 'color' => 'Red'));
-            // $variation->set_regular_price(1000000); // yep, magic hat is quite expensive
-            // $variation->save();
-
-            // $variation = new WC_Product_Variation();
-            // $variation->set_parent_id($this->varProduct->get_id());
-            // $variation->set_attributes(array('color' => 'Black', 'brand' => 'Transsd'));
-            // $variation->set_regular_price(500);
-            // $variation->save();
-            $word = str_replace('-', ' ', $data->brand);
-            $brand = ucwords($word);
+            $brand = ucwords(str_replace('-', ' ', $data->brand));
 
             wp_set_object_terms($this->varProduct->get_id(), $data->tags, 'product_tag');
             wp_set_object_terms($this->varProduct->get_id(), [$brand], 'product_cat');
 
             foreach ($data->colors as $color_data) {
-              foreach ($color_data->sizes as $size_data) {
-                $variation = new WC_Product_Variation();
-                $variation->set_parent_id($this->varProduct->get_id());
+                foreach ($color_data->sizes as $size_data) {
+                    $variation = new WC_Product_Variation();
+                    $variation->set_parent_id($this->varProduct->get_id());
+                    $variation->set_attributes([
+                        'color' => $color_data->name,
+                        'size' => $size_data->size,
+                    ]);
+                    $variation->set_regular_price($price);
 
-                // Set variation name (combine color with size)
-                // $variation->set_name($color_data['name'] . ' (' . $size_data['size'] . ')');
-
-                // Set variation attributes
-                $variation->set_attributes([
-                  'color' => $color_data->name,
-                  'size' => $size_data->size,
-                ]);
-
-                // Set variation price
-                $variation->set_regular_price($price); 
-
-                $variation_image_id = upload_file_by_url($color_data->images[0]->https_attachment_url_product);
-
-                // Set variation image (if found)
-                if ($variation_image_id) {
-                  $variation->set_image_id($variation_image_id);
+                    $variation_image_id = upload_file_by_url($color_data->images[0]->https_attachment_url_product);
+                    if ($variation_image_id) {
+                        $variation->set_image_id($variation_image_id);
+                    }
+                    $variation->save();
                 }
-                $variation->save();
-                // $variations[] = $variation;
-              }
             }
-
-
-            // let's suppose that our 'Accessories' category has ID = 19 
-            // $product->set_category_ids(array(19));
-            // you can also use $product->set_tag_ids() for tags, brands etc
-
-
 
             if ($save) {
                 $this->varProduct->update_meta_data('aone_upload', 'true');
                 return true;
             }
-            return;
 
+            return;
         }
+
         public function import_trends_woocommerce_product($data)
         {
-            $existingProductId = wc_get_product_id_by_sku($data->slug);
+            $existingProductId = wc_get_product_id_by_sku($data->code);
             if ($existingProductId) {
                 $this->varProduct = wc_get_product($existingProductId);
                 $meta_value = $this->varProduct->get_meta('aone_upload', true);
@@ -265,7 +345,7 @@ if (!class_exists("Woo")):
                 if ($meta_value){
                     return true;
                 }
-                return true;
+                // return true;
 
                 // Update slug (if desired) - Adjust based on your slug source
             } else {
