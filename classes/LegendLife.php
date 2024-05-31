@@ -67,6 +67,7 @@ if (!class_exists("LegendLife")):
             $args = array(
                 'headers' => $headers,
                 'body' => $xml_body,
+
             );
 
             $response = wp_remote_post($api_endpoint, $args);
@@ -105,12 +106,13 @@ if (!class_exists("LegendLife")):
         }
 
 
-        public function get_legend_life_products($page = 1, $page_size=100)
+        public function get_legend_life_products($page = 1, $page_size=30)
         {
             $api_endpoint = $this->base_url;
 
             $headers = array(
                 'Content-Type' => 'text/xml; charset=utf-8',
+
             );
 
             $xml_body = '<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:Magento">   
@@ -130,13 +132,18 @@ if (!class_exists("LegendLife")):
             $args = array(
                 'headers' => $headers,
                 'body' => $xml_body,
+                'timeout' => 30000
             );
 
             $response = wp_remote_post($api_endpoint, $args);
 
             if (is_wp_error($response)) {
                 display_admin_notice("Error: " . $response->get_error_message(), 'error');
-
+                return [
+                    'status' => false,
+                    'message' => "Error Occured: {$response->get_error_message()}",
+                    'data' => null,
+                ];
             }
 
             $response_body = wp_remote_retrieve_body($response);

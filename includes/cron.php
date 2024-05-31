@@ -18,24 +18,24 @@ $sync = one_get_theme_option('aone_sync_product');
 
 if($sync):
 
-function schedule_fashion_biz_cron()
-{
-    if (!as_has_scheduled_action('get_fashion_biz_products')) {
-            as_schedule_recurring_action(time(), 86400, 'get_fashion_biz_products');
-    }
-}
-add_action('init', 'schedule_fashion_biz_cron');
-add_action('get_fashion_biz_products', 'getFashionBizProductsAndSave');
+// function schedule_fashion_biz_cron()
+// {
+//     if (!as_has_scheduled_action('get_fashion_biz_products')) {
+//             as_schedule_recurring_action(time(), 86400, 'get_fashion_biz_products');
+//     }
+// }
+// add_action('init', 'schedule_fashion_biz_cron');
+// add_action('get_fashion_biz_products', 'getFashionBizProductsAndSave');
 
 
-function schedule_trends_cron()
-{
-    if (!as_has_scheduled_action('get_trends_products')) {
-        as_schedule_recurring_action(time(), 86400, 'get_trends_products');
-    }
-}
-add_action('init', 'schedule_trends_cron');
-add_action('get_trends_products', 'getTrendsProductsAndSave');
+// function schedule_trends_cron()
+// {
+//     if (!as_has_scheduled_action('get_trends_products')) {
+//         as_schedule_recurring_action(time(), 86400, 'get_trends_products');
+//     }
+// }
+// add_action('init', 'schedule_trends_cron');
+// add_action('get_trends_products', 'getTrendsProductsAndSave');
 
 
 // function schedule_legend_life_cron()

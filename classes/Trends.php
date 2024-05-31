@@ -33,7 +33,7 @@ if (!class_exists("Trends")):
 
 
 
-        public function get_trends_products($page = 1, $page_size=20)
+        public function get_trends_products($page = 1, $page_size=50)
         {
             $api_endpoint = "{$this->base_url}/v1/products.json?inc_inactive=no&page_no={$page}&page_size={$page_size}";
 

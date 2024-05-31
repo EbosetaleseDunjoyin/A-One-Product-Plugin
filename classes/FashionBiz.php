@@ -80,7 +80,7 @@ if(!class_exists("FashionBiz")):
 
             $args = array(
                 'headers' => $headers,
-                // 'timeout' => 300
+                'timeout' => 30000
             );
 
             $response = wp_remote_get($api_endpoint, $args);
@@ -159,6 +159,8 @@ if(!class_exists("FashionBiz")):
 
             $args = array(
                 'headers' => $headers,
+                'timeout' => 3000
+                
             );
 
             $response = wp_remote_get($api_endpoint, $args);
